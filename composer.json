@@ -1,0 +1,41 @@
+{
+  "name": "rgilyov/laravel-assets-deployer",
+  "description": "Deploy your compiled javascript and css files into cloud/disk.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "deploy",
+    "css",
+    "styles",
+    "javascript",
+    "move",
+    "transfer",
+    "cloud",
+    "js"
+  ],
+  "authors": [
+    {
+      "name": "Roman Gilyov",
+      "email": "rgilyov@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.4",
+    "laravel/framework": "^5.1"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^3.2",
+    "phpunit/phpunit": "^5.7",
+    "mockery/mockery": "^0.9.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "RGilyov\\AssetDeployer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RGilyov\\AssetDeployer\\Test\\": "tests/"
+    }
+  }
+}
