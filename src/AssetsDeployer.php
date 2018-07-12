@@ -5,6 +5,12 @@ use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
 
 /**
  * Class AssetsDeployer
+ *
+ * @method static upload()
+ * @method static getDefault($path, $directory)
+ * @method static getFromCloud($path, $directory)
+ * @method static get($path, $directory)
+ *
  * @package RGilyov\AssetsDeployer
  */
 class AssetsDeployer

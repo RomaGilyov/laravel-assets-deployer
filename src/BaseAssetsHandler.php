@@ -121,12 +121,12 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
         foreach ($this->directories as $directory) {
             $manifest = $this->getManifest($directory);
 
-            foreach ($manifest as $path => $file) {
-                $filePath = $this->gluePaths($directory, pathinfo($path, PATHINFO_DIRNAME));
+            foreach ($manifest as $file) {
+                $filePath = $this->gluePaths($directory, $file);
 
                 $path = $this->gluePaths($this->basePath, $filePath);
 
-                $contents = Storage::disk('public')->get($file);
+                $contents = Storage::disk('public')->get($filePath);
 
                 $this->disk->put($path, $contents);
             }
