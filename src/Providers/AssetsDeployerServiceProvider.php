@@ -19,7 +19,7 @@ class AssetsDeployerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'../config/assets-deployer.php' => config_path('assets-deployer.php')
+            __DIR__.'/../config/assets-deployer.php' => config_path('assets-deployer.php')
         ], 'config');
     }
 
@@ -30,9 +30,9 @@ class AssetsDeployerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '../config/assets-deployer.php', 'assets-deployer');
+        $this->mergeConfigFrom(__DIR__ . '/../config/assets-deployer.php', 'assets-deployer');
 
-        require_once __DIR__."../helpers.php";
+        require_once __DIR__."/../helpers.php";
 
         if (method_exists($this, 'commands')) {
             $this->commands([DeployAssetsCommand::class]);
