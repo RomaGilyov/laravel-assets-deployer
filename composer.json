@@ -1,6 +1,6 @@
 {
   "name": "rgilyov/laravel-assets-deployer",
-  "description": "Deploy your compiled javascript and css files into cloud/disk.",
+  "description": "Deploy your compiled javascript and css files into cloud.",
   "type": "library",
   "license": "MIT",
   "keywords": [
