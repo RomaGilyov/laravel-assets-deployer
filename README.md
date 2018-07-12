@@ -1,5 +1,5 @@
 # laravel-assets-deployer
-#####Deploy your compiled javascript and css files into cloud.
+Deploy your compiled javascript and css files into cloud.
 
 ## Installation ##
 
@@ -22,7 +22,7 @@ php artisan vendor:publish --tag=config
 
 ## Basic usage ##
 
-Just change all `mix()` or `elixir()` function with:
+Just change all `mix()` or `elixir()` functions with:
 
 ```
     {{ assets_deployer_get($path, $directory) }}
