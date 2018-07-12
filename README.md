@@ -7,11 +7,11 @@ Deploy your compiled javascript and css files into cloud.
 composer require rgilyov/laravel-file-manager
 ```
 
-Register \RGilyov\AssetsDeployer\Provides\AssetsDeployerServiceProvides inside `config/app.php`
+Register \RGilyov\AssetsDeployer\Provides\AssetsDeployerServiceProvider inside `config/app.php`
 ```php
     'providers' => [
         ...
-        \RGilyov\AssetsDeployer\Providers\AssetsDeployerServiceProvides::class,
+        \RGilyov\AssetsDeployer\Providers\AssetsDeployerServiceProvider::class,
     ],
 ```
 
