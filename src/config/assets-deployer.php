@@ -47,4 +47,12 @@ return [
     */
 
     'disk' => env('ASSETS_DEPLOYER_DISK', 's3'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Root cloud assets directory
+    |--------------------------------------------------------------------------
+    */
+
+    'cloud_assets_directory' => 'deployed_assets',
 ];
