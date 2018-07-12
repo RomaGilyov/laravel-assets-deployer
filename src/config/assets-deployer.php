@@ -4,33 +4,47 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Development mode
+    | Assets engine mix/elixir
     |--------------------------------------------------------------------------
-    |
-    | During development mode the `assets_deployer_get()` will work
-    | as standard `mix()` or `elixir()`
-    |
     */
 
-    'development_mode' => env('ASSETS_DEPLOYER_DEV', true),
+    'assets_engine' => 'mix',
 
     /*
     |--------------------------------------------------------------------------
-    | Path to manifest.json
+    | Mix manifest directories
     |--------------------------------------------------------------------------
+    |
+    | If you using mix, please specify all manifest directories that being used
+    | on your project, parameters that specified as a second argument of
+    | `mix($path, $manifestDirectory)` function, default array if you don't use
+    | the parameter
+    |
     */
 
-    'manifest_json_path' => public_path(),
+    'mix_manifest_directories' => [''],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Elixir build directories
+    |--------------------------------------------------------------------------
+    | If you using elixir, please specify all build directories that being used
+    | on your project, parameters that specified as a second argument of
+    | `elixir($file, $buildDirectory)` function, default array if you don't use
+    | the parameter
+    */
+
+    'elixir_build_directories' => ['build'],
 
     /*
     |--------------------------------------------------------------------------
     | Cloud disk to deploy
     |--------------------------------------------------------------------------
     |
-    | If the disk will have local driver, the `assets_deployer_get()` will work
-    | as standard `mix()` or `elixir()`
+    | If the disk will have local driver or will be set to false,
+    | the `assets_deployer_get()` will work as standard `mix()` or `elixir()`
     |
     */
 
-    'disk' => 's3',
+    'disk' => env('ASSETS_DEPLOYER_DISK', 's3'),
 ];
