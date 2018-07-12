@@ -56,7 +56,7 @@ class AssetsDeployer
      */
     public static function isMixEngine()
     {
-        $engine = config('assets-deployer')['assets-engine'];
+        $engine = config('assets-deployer')['assets_engine'];
 
         return strcasecmp($engine, 'mix') === 0;
     }
