@@ -9,24 +9,31 @@ namespace RGilyov\AssetsDeployer\Interfaces;
 interface AssetsHandlerInterface
 {
     /**
+     * @param $directory
      * @return array
      */
-    public function getManifest();
+    public function getManifest($directory);
 
     /**
+     * @param $path
+     * @param $directory
      * @return mixed
      */
-    public function getFromCloud();
+    public function getFromCloud($path, $directory);
 
     /**
+     * @param $path
+     * @param $directory
      * @return mixed
      */
-    public function getDefault();
+    public function getDefault($path, $directory);
 
     /**
+     * @param $path
+     * @param $directory
      * @return mixed
      */
-    public function get();
+    public function get($path, $directory);
 
     /**
      * @return bool

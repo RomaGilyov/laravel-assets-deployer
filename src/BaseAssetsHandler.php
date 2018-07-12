@@ -14,6 +14,13 @@ use RGilyov\AssetsDeployer\Interfaces\AssetsHandlerInterface;
 abstract class BaseAssetsHandler implements AssetsHandlerInterface
 {
     /**
+     * Cloud directory with asses
+     *
+     * @var string
+     */
+    protected $basePath;
+
+    /**
      * @var array
      */
     protected $directories;
@@ -34,6 +41,8 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     public function __construct()
     {
         $this->config = config('assets-deployer');
+
+        $this->basePath = $this->config['cloud_assets_directory'];
 
         $this->disk = $this->resolveDisk();
 
@@ -77,15 +86,27 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     }
 
     /**
+     * @param $part1
+     * @param $part2
+     * @return string
+     */
+    protected function gluePaths($part1, $part2)
+    {
+        return rtrim($part1) . '/' . ltrim($part2);
+    }
+
+    /**
+     * @param $path
+     * @param $directory
      * @return mixed
      */
-    public function get()
+    public function get($path, $directory)
     {
         if ($this->isCloud()) {
-            return $this->getFromCloud();
+            return $this->getFromCloud($path, $directory);
         }
 
-        return $this->getDefault();
+        return $this->getDefault($path, $directory);
     }
 
     /**
@@ -97,6 +118,20 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             return true;
         }
 
+        foreach ($this->directories as $directory) {
+            $manifest = $this->getManifest($directory);
 
+            foreach ($manifest as $path => $file) {
+                $filePath = $this->gluePaths($directory, pathinfo($path, PATHINFO_DIRNAME));
+
+                $path = $this->gluePaths($this->basePath, $filePath);
+
+                $contents = Storage::disk('public')->get($file);
+
+                $this->disk->put($path, $contents);
+            }
+        }
+
+        return true;
     }
 }
