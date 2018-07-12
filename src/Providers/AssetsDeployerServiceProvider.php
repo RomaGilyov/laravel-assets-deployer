@@ -31,10 +31,8 @@ class AssetsDeployerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/config/assets-deployer.php', 'assets-deployer');
-
-        if (function_exists('assets_deployer_get')) {
-            require_once __DIR__."../helpers.php";
-        }
+        
+        require_once __DIR__."../helpers.php";
 
         if (method_exists($this, 'commands')) {
             $this->commands([DeployAssetsCommand::class]);
