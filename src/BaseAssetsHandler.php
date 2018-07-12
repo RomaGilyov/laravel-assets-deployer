@@ -54,9 +54,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      */
     protected function resolveDirectories()
     {
-        $engine = $this->config['assets_engine'];
-
-        if (strcasecmp($engine, 'elixir') === 0) {
+        if (AssetsDeployer::isMixEngine()) {
             return $this->config['mix_build_directories'];
         }
 

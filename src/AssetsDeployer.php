@@ -29,13 +29,7 @@ class AssetsDeployer
             return;
         }
 
-        $engine = config('assets-deployer')['assets-engine'];
-
-        if (strcasecmp($engine, 'elixir') === 0) {
-            static::$deployer = new ElixirHandler();
-        }
-
-        static::$deployer = new MixHandler();
+        static::$deployer = static::isMixEngine() ? new MixHandler() : new ElixirHandler();
     }
 
     /**
@@ -55,5 +49,15 @@ class AssetsDeployer
         $className = get_class(static::$deployer);
 
         throw new AssetsDeployerException("Method {$name} does not exists in {$className}");
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isMixEngine()
+    {
+        $engine = config('assets-deployer')['assets-engine'];
+
+        return strcasecmp($engine, 'mix') === 0;
     }
 }
