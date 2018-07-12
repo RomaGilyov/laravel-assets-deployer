@@ -3,6 +3,7 @@
 namespace RGilyov\AssetsDeployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use RGilyov\AssetsDeployer\Commands\DeployAssetsCommand;
 
 /**
  * Class AssetsDeployerServiceProvider
@@ -36,7 +37,7 @@ class AssetsDeployerServiceProvider extends ServiceProvider
         }
 
         if (method_exists($this, 'commands')) {
-            $this->commands([]);
+            $this->commands([DeployAssetsCommand::class]);
         }
     }
 }
