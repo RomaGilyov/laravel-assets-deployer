@@ -45,14 +45,4 @@ class ElixirHandler extends BaseAssetsHandler
 
         throw new AssetsDeployerException("Elixir function does not exists");
     }
-
-    /**
-     * @param $path
-     * @param $directory
-     * @return mixed|string
-     */
-    public function getFromCloud($path, $directory)
-    {
-        return $this->disk->url($this->gluePaths($directory, $path));
-    }
 }

@@ -56,10 +56,11 @@ class MixHandler extends BaseAssetsHandler
     /**
      * @param $path
      * @param $directory
-     * @return mixed|string
+     * @return HtmlString|mixed
+     * @throws AssetsDeployerException
      */
     public function getFromCloud($path, $directory)
     {
-        return new HtmlString($this->disk->url($this->gluePaths($directory, $path)));
+        return new HtmlString(parent::getFromCloud($path, $directory));
     }
 }

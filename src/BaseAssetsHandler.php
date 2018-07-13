@@ -5,6 +5,7 @@ namespace RGilyov\AssetsDeployer;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Adapter\Local;
+use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
 use RGilyov\AssetsDeployer\Interfaces\AssetsHandlerInterface;
 
 /**
@@ -77,7 +78,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     protected function isCloud()
     {
         if ($this->disk instanceof FilesystemAdapter) {
-            return ! $this->disk->getDriver()->getAdapter() instanceof Local;
+            return !$this->disk->getDriver()->getAdapter() instanceof Local;
         }
 
         return false;
@@ -112,7 +113,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      */
     public function upload()
     {
-        if (! $this->isCloud()) {
+        if (!$this->isCloud()) {
             return true;
         }
 
@@ -135,5 +136,45 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
         }
 
         return true;
+    }
+
+    /**
+     * @param $fullFilePath
+     * @return string
+     */
+    protected function makeCloudUrl($fullFilePath)
+    {
+        $diskConfig = config('filesystem.disks')[$this->config['disk']];
+
+        if (isset($diskConfig['url'])) {
+            return $this->gluePaths($diskConfig['url'], $fullFilePath);
+        }
+
+        if ($this->disk && method_exists($this->disk, 'url')) {
+            return $this->disk->url($fullFilePath);
+        }
+
+        return $fullFilePath;
+    }
+
+    /**
+     * @param $path
+     * @param $directory
+     * @return mixed
+     * @throws AssetsDeployerException
+     */
+    public function getFromCloud($path, $directory)
+    {
+        $manifest = $this->getManifest($directory);
+
+        if (!isset($manifest[$path])) {
+            throw new AssetsDeployerException("File {$path} does not exists in the manifest.json");
+        }
+
+        $filePath = $this->gluePaths($directory, $manifest[$path]);
+
+        $fullPath = $this->gluePaths($this->cloudDirectory, $filePath);
+
+        return $this->makeCloudUrl($fullPath);
     }
 }
