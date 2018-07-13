@@ -18,7 +18,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      *
      * @var string
      */
-    protected $basePath;
+    protected $cloudDirectory;
 
     /**
      * @var array
@@ -42,7 +42,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $this->config = config('assets-deployer');
 
-        $this->basePath = $this->config['cloud_assets_directory'];
+        $this->cloudDirectory = $this->config['cloud_assets_directory'];
 
         $this->disk = $this->resolveDisk();
 
@@ -116,13 +116,17 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             return true;
         }
 
+        if ($this->disk->exists($this->cloudDirectory)) {
+            $this->disk->deleteDirectory($this->cloudDirectory);
+        }
+
         foreach ($this->directories as $directory) {
             $manifest = $this->getManifest($directory);
 
             foreach ($manifest as $file) {
                 $filePath = $this->gluePaths($directory, $file);
 
-                $path = $this->gluePaths($this->basePath, $filePath);
+                $path = $this->gluePaths($this->cloudDirectory, $filePath);
 
                 $contents = file_get_contents(public_path($filePath));
 
