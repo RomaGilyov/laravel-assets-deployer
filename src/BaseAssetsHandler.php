@@ -4,7 +4,7 @@ namespace RGilyov\AssetsDeployer;
 
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
-use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
 use RGilyov\AssetsDeployer\Interfaces\AssetsHandlerInterface;
 
 /**
@@ -77,7 +77,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     protected function isCloud()
     {
         if ($this->disk instanceof FilesystemAdapter) {
-            return ! $this->disk->getDriver() instanceof Filesystem;
+            return ! $this->disk->getDriver()->getAdapter() instanceof Local;
         }
 
         return false;
