@@ -4,6 +4,7 @@ namespace RGilyov\AssetsDeployer;
 
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use League\Flysystem\Adapter\Local;
 use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
 use RGilyov\AssetsDeployer\Interfaces\AssetsHandlerInterface;
@@ -43,11 +44,22 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $this->config = config('assets-deployer');
 
-        $this->cloudDirectory = $this->gluePaths($this->config['cloud_assets_directory'], env('APP_URL'));
+        $this->cloudDirectory = $this->makeCloudDirectory();
 
         $this->disk = $this->resolveDisk();
 
         $this->directories = ( array )$this->resolveDirectories();
+    }
+
+    /**
+     * @return string
+     */
+    protected function makeCloudDirectory()
+    {
+        return $this->gluePaths(
+            $this->config['cloud_assets_directory'],
+            Str::slug(env('APP_URL'), '_')
+        );
     }
 
     /**
