@@ -43,7 +43,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $this->config = config('assets-deployer');
 
-        $this->cloudDirectory = $this->config['cloud_assets_directory'];
+        $this->cloudDirectory = $this->gluePaths($this->config['cloud_assets_directory'], env('APP_URL'));
 
         $this->disk = $this->resolveDisk();
 
@@ -98,6 +98,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      * @param $path
      * @param $directory
      * @return mixed
+     * @throws AssetsDeployerException
      */
     public function get($path, $directory)
     {
