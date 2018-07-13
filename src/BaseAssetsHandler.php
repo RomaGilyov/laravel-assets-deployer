@@ -90,7 +90,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      */
     protected function gluePaths($part1, $part2)
     {
-        return rtrim($part1) . '/' . ltrim($part2);
+        return rtrim($part1, '/') . '/' . ltrim($part2, '/');
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
                 $path = $this->gluePaths($this->basePath, $filePath);
 
-                $contents = Storage::disk('public')->get($filePath);
+                $contents = file_get_contents(public_path($filePath));
 
                 $this->disk->put($path, $contents);
             }
