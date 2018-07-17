@@ -134,6 +134,8 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             $this->disk->deleteDirectory($this->cloudDirectory);
         }
 
+        $this->uploadAdditionalAssets();
+
         foreach ($this->directories as $directory) {
             $manifest = $this->getManifest($directory);
 
@@ -147,8 +149,6 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
                 $this->disk->put($path, $contents);
             }
         }
-
-        $this->uploadAdditionalAssets();
 
         return true;
     }
@@ -220,7 +220,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
         }
 
         if (is_dir($path)) {
-            return glob($path);
+            return glob("$path/*");
         }
 
         if (is_file($path)) {
