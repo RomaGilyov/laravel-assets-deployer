@@ -130,12 +130,6 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             return true;
         }
 
-        if ($this->disk->exists($this->cloudDirectory)) {
-            $this->disk->deleteDirectory($this->cloudDirectory);
-        }
-
-        $this->uploadAdditionalAssets();
-
         foreach ($this->directories as $directory) {
             $manifest = $this->getManifest($directory);
 
@@ -149,6 +143,8 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
                 $this->disk->put($path, $contents);
             }
         }
+
+        $this->uploadAdditionalAssets();
 
         return true;
     }
@@ -181,7 +177,9 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
             $file = $this->gluePaths($this->cloudDirectory, $this->truncateAbsolutePath($file));
 
-            $this->disk->put($file, $contents);
+            if (! $this->disk->exists($file)) {
+                $this->disk->put($file, $contents);
+            }
         }
     }
 
