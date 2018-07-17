@@ -179,7 +179,9 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
             $contents = $this->getContents($file);
 
-            $this->disk->put($this->truncateAbsolutePath($file), $contents);
+            $file = $this->gluePaths($this->cloudDirectory, $this->truncateAbsolutePath($file));
+
+            $this->disk->put($file, $contents);
         }
     }
 
