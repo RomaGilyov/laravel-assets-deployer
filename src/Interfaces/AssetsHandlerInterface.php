@@ -36,7 +36,8 @@ interface AssetsHandlerInterface
     public function get($path, $directory);
 
     /**
-     * @return bool
+     * @param bool $uploadAdditionalAssets
+     * @return mixed
      */
-    public function upload();
+    public function upload($uploadAdditionalAssets = false);
 }

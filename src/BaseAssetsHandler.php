@@ -122,9 +122,10 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     }
 
     /**
-     * @return bool
+     * @param bool $uploadAdditionalAssets
+     * @return bool|mixed
      */
-    public function upload()
+    public function upload($uploadAdditionalAssets = false)
     {
         if (!$this->isCloud()) {
             return true;
@@ -144,7 +145,9 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             }
         }
 
-        $this->uploadAdditionalAssets();
+        if ($uploadAdditionalAssets) {
+            $this->uploadAdditionalAssets();
+        }
 
         return true;
     }

@@ -6,7 +6,7 @@ use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
 /**
  * Class AssetsDeployer
  *
- * @method static upload()
+ * @method static upload($deployAdditionalAssets = false)
  * @method static getDefault($path, $directory)
  * @method static getFromCloud($path, $directory)
  * @method static get($path, $directory)

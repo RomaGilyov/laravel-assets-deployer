@@ -16,7 +16,7 @@ class DeployAssetsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'assets-deployer:deploy';
+    protected $signature = 'assets-deployer:deploy {--deploy-additional-assets}';
 
     /**
      * The console command description.
@@ -32,6 +32,6 @@ class DeployAssetsCommand extends Command
      */
     public function handle()
     {
-        AssetsDeployer::upload();
+        AssetsDeployer::upload($this->option('deploy-additional-assets'));
     }
 }
