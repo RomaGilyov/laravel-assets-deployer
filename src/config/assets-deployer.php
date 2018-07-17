@@ -55,4 +55,14 @@ return [
     */
 
     'cloud_assets_directory' => 'deployed_assets',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Additional assets to deploy: fonts, images
+    |--------------------------------------------------------------------------
+    */
+
+    'additional_assets' => [
+
+    ],
 ];

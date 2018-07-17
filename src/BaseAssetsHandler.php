@@ -142,13 +142,92 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
                 $path = $this->gluePaths($this->cloudDirectory, $filePath);
 
-                $contents = file_get_contents(public_path($filePath));
+                $contents = $this->getContents($filePath);
 
                 $this->disk->put($path, $contents);
             }
         }
 
+        $this->uploadAdditionalAssets();
+
         return true;
+    }
+
+    /**
+     * @return void
+     */
+    protected function uploadAdditionalAssets()
+    {
+        $additionalAssets = $this->config['additional_assets'];
+
+        if (is_array($additionalAssets)) {
+            foreach ($additionalAssets as $path) {
+                $this->uploadAdditionalRecursively($path);
+            }
+        }
+    }
+
+    /**
+     * @param $path
+     */
+    protected function uploadAdditionalRecursively($path)
+    {
+        foreach ($this->files($path) as $file) {
+            if (is_dir($file)) {
+                $this->uploadAdditionalRecursively($file);
+            }
+
+            $contents = $this->getContents($file);
+
+            $this->disk->put($this->truncateAbsolutePath($file), $contents);
+        }
+    }
+
+    /**
+     * @param $path
+     * @return bool|string
+     */
+    protected function getContents($path)
+    {
+        $publicPath = public_path();
+
+        if (strpos($path, $publicPath) === false) {
+            $path = $this->gluePaths($publicPath, $path);
+        }
+
+        return file_get_contents($path);
+    }
+
+    /**
+     * @param $path
+     * @return mixed
+     */
+    protected function truncateAbsolutePath($path)
+    {
+        return str_replace(public_path(), '', $path);
+    }
+
+    /**
+     * @param $path
+     * @return array
+     */
+    protected function files($path)
+    {
+        $publicPath = public_path();
+
+        if (strpos($path, $publicPath) === false) {
+            $path = $this->gluePaths($publicPath, $path);
+        }
+
+        if (is_dir($path)) {
+            return glob($path);
+        }
+
+        if (is_file($path)) {
+            return [$path];
+        }
+
+        return [];
     }
 
     /**
