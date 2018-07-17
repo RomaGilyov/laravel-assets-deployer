@@ -265,7 +265,16 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
         $filePath = $this->gluePaths($directory, $manifest[$path]);
 
-        $fullPath = $this->gluePaths($this->cloudDirectory, $filePath);
+        return $this->srcLink($filePath);
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    public function srcLink($path)
+    {
+        $fullPath = $this->gluePaths($this->cloudDirectory, $path);
 
         return $this->makeCloudUrl($fullPath);
     }

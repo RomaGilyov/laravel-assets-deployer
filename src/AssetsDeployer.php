@@ -10,6 +10,7 @@ use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
  * @method static getDefault($path, $directory)
  * @method static getFromCloud($path, $directory)
  * @method static get($path, $directory)
+ * @method static srcLink($path)
  *
  * @package RGilyov\AssetsDeployer
  */
