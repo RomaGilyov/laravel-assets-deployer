@@ -52,6 +52,41 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     }
 
     /**
+     * @return array
+     */
+    public function getDirectories()
+    {
+        return $this->directories;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCloudDirectory()
+    {
+        return $this->cloudDirectory;
+    }
+
+    /**
+     * @return FilesystemAdapter|null
+     */
+    public function getDisk()
+    {
+        return $this->disk;
+    }
+
+    /**
+     * @param FilesystemAdapter $disk
+     * @return $this
+     */
+    public function setDisk(FilesystemAdapter $disk)
+    {
+        $this->disk = $disk;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     protected function makeCloudDirectory()

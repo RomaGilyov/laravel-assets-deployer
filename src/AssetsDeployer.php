@@ -11,6 +11,7 @@ use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
  * @method static getFromCloud($path, $directory)
  * @method static get($path, $directory)
  * @method static srcLink($path)
+ * @method static setDisk($disk)
  *
  * @package RGilyov\AssetsDeployer
  */
