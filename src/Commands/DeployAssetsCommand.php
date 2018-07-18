@@ -39,6 +39,6 @@ class DeployAssetsCommand extends Command
             AssetsDeployer::setDisk(Storage::disk($disk));
         }
 
-        AssetsDeployer::upload($this->option('deploy-additional-assets'));
+        AssetsDeployer::upload($this->option('all-assets'));
     }
 }
