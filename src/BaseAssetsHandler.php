@@ -176,6 +176,10 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
                 $path = $this->gluePaths($this->cloudDirectory, $filePath);
 
+                if ($this->disk->exists($path)) {
+                    $this->disk->delete($path);
+                }
+
                 $contents = $this->getContents($filePath);
 
                 $this->disk->put($path, $contents);
