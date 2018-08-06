@@ -32,10 +32,5 @@
     "psr-4": {
       "Hippomundo\\AssetsDeployer\\": "src/"
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Hippomundo\\AssetsDeployer\\Test\\": "tests/"
-    }
   }
 }
