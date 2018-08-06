@@ -9,10 +9,10 @@ if (! function_exists('assets_deployer_get')) {
     function assets_deployer_get($path, $directory = null)
     {
         if (! is_null($directory)) {
-            $directory = \RGilyov\AssetsDeployer\AssetsDeployer::isMixEngine() ? '' : 'build';
+            $directory = \Hippomundo\AssetsDeployer\AssetsDeployer::isMixEngine() ? '' : 'build';
         }
 
-        return \RGilyov\AssetsDeployer\AssetsDeployer::get($path, $directory);
+        return \Hippomundo\AssetsDeployer\AssetsDeployer::get($path, $directory);
     }
 }
 
@@ -23,6 +23,6 @@ if (! function_exists('assets_deployer_src')) {
      */
     function assets_deployer_src($path)
     {
-        return \RGilyov\AssetsDeployer\AssetsDeployer::srcLink($path);
+        return \Hippomundo\AssetsDeployer\AssetsDeployer::srcLink($path);
     }
 }

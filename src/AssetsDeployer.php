@@ -1,7 +1,8 @@
 <?php
 
-namespace RGilyov\AssetsDeployer;
-use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
+namespace Hippomundo\AssetsDeployer;
+
+use Hippomundo\AssetsDeployer\Exceptions\AssetsDeployerException;
 
 /**
  * Class AssetsDeployer
@@ -13,7 +14,7 @@ use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
  * @method static srcLink($path)
  * @method static setDisk($disk)
  *
- * @package RGilyov\AssetsDeployer
+ * @package Hippomundo\AssetsDeployer
  */
 class AssetsDeployer
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace RGilyov\AssetsDeployer;
+namespace Hippomundo\AssetsDeployer;
 
-use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
+use Hippomundo\AssetsDeployer\Exceptions\AssetsDeployerException;
 
 /**
  * Class ElixirHandler
- * @package RGilyov\AssetsDeployer
+ * @package Hippomundo\AssetsDeployer
  */
 class ElixirHandler extends BaseAssetsHandler
 {

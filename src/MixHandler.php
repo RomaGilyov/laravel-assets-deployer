@@ -1,13 +1,13 @@
 <?php
 
-namespace RGilyov\AssetsDeployer;
+namespace Hippomundo\AssetsDeployer;
 
 use Illuminate\Support\HtmlString;
-use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
+use Hippomundo\AssetsDeployer\Exceptions\AssetsDeployerException;
 
 /**
  * Class MixHandler
- * @package RGilyov\AssetsDeployer
+ * @package Hippomundo\AssetsDeployer
  */
 class MixHandler extends BaseAssetsHandler
 {

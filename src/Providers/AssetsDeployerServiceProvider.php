@@ -1,13 +1,13 @@
 <?php
 
-namespace RGilyov\AssetsDeployer\Providers;
+namespace Hippomundo\AssetsDeployer\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use RGilyov\AssetsDeployer\Commands\DeployAssetsCommand;
+use Hippomundo\AssetsDeployer\Commands\DeployAssetsCommand;
 
 /**
  * Class AssetsDeployerServiceProvider
- * @package RGilyov\AssetsDeployer\Providers
+ * @package Hippomundo\AssetsDeployer\Providers
  */
 class AssetsDeployerServiceProvider extends ServiceProvider
 {

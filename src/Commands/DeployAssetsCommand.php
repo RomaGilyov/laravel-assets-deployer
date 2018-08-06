@@ -1,14 +1,14 @@
 <?php
 
-namespace RGilyov\AssetsDeployer\Commands;
+namespace Hippomundo\AssetsDeployer\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use RGilyov\AssetsDeployer\AssetsDeployer;
+use Hippomundo\AssetsDeployer\AssetsDeployer;
 
 /**
  * Class DeployAssetsCommand
- * @package RGilyov\AssetsDeployer\Commands
+ * @package Hippomundo\AssetsDeployer\Commands
  */
 class DeployAssetsCommand extends Command
 {

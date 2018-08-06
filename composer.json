@@ -30,12 +30,12 @@
   },
   "autoload": {
     "psr-4": {
-      "RGilyov\\AssetsDeployer\\": "src/"
+      "Hippomundo\\AssetsDeployer\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "RGilyov\\AssetsDeployer\\Test\\": "tests/"
+      "Hippomundo\\AssetsDeployer\\Test\\": "tests/"
     }
   }
 }

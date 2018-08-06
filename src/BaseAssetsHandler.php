@@ -1,17 +1,17 @@
 <?php
 
-namespace RGilyov\AssetsDeployer;
+namespace Hippomundo\AssetsDeployer;
 
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\Adapter\Local;
-use RGilyov\AssetsDeployer\Exceptions\AssetsDeployerException;
-use RGilyov\AssetsDeployer\Interfaces\AssetsHandlerInterface;
+use Hippomundo\AssetsDeployer\Exceptions\AssetsDeployerException;
+use Hippomundo\AssetsDeployer\Interfaces\AssetsHandlerInterface;
 
 /**
  * Class BaseAssetsHandler
- * @package RGilyov\AssetsDeployer
+ * @package Hippomundo\AssetsDeployer
  */
 abstract class BaseAssetsHandler implements AssetsHandlerInterface
 {

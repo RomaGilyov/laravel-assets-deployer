@@ -4,14 +4,14 @@ Deploy your compiled javascript and css files into cloud.
 ## Installation ##
 
 ```php
-composer require rgilyov/laravel-assets-deployer
+composer require hippomundo/laravel-assets-deployer
 ```
 
-Register \RGilyov\AssetsDeployer\Provides\AssetsDeployerServiceProvider inside `config/app.php`
+Register \Hippomundo\AssetsDeployer\Provides\AssetsDeployerServiceProvider inside `config/app.php`
 ```php
     'providers' => [
         ...
-        \RGilyov\AssetsDeployer\Providers\AssetsDeployerServiceProvider::class,
+        \Hippomundo\AssetsDeployer\Providers\AssetsDeployerServiceProvider::class,
     ],
 ```
 

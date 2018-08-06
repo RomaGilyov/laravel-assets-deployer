@@ -1,10 +1,10 @@
 <?php
 
-namespace RGilyov\AssetsDeployer\Interfaces;
+namespace Hippomundo\AssetsDeployer\Interfaces;
 
 /**
  * Interface AssetsHandlerInterface
- * @package RGilyov\AssetsDeployer\Interfaces
+ * @package Hippomundo\AssetsDeployer\Interfaces
  */
 interface AssetsHandlerInterface
 {

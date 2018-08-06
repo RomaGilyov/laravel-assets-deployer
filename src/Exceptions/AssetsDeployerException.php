@@ -1,10 +1,10 @@
 <?php
 
-namespace RGilyov\AssetsDeployer\Exceptions;
+namespace Hippomundo\AssetsDeployer\Exceptions;
 
 /**
  * Class AssetsDeployerException
- * @package RGilyov\AssetsDeployer
+ * @package Hippomundo\AssetsDeployer
  */
 class AssetsDeployerException extends \Exception
 {
