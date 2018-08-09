@@ -280,6 +280,10 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      */
     protected function makeCloudUrl($fullFilePath)
     {
+        if (isset($this->config['domain'])) {
+            return $this->gluePaths($this->config['domain'], $fullFilePath);
+        }
+
         $diskConfig = config('filesystems.disks')[$this->config['disk']];
 
         if (isset($diskConfig['url'])) {
