@@ -200,6 +200,8 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
         if ($uploadAdditionalAssets) {
             $this->uploadAdditionalAssets();
+
+            $this->generateAssetsDeployerUnique();
         }
 
         return true;
@@ -214,10 +216,9 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
         $assetsDeployerManifest = $this->getAssetsDeployerManifest(false);
 
-        $assetsDeployerManifest[$directory] = $manifest;
-        $assetsDeployerManifest['unique']   = Str::slug(Str::random(), '');
+        $assetsDeployerManifest['directories'][$directory] = $manifest;
 
-        file_put_contents(public_path(static::MANIFEST), json_encode($assetsDeployerManifest), LOCK_EX);
+        $this->putManifest($assetsDeployerManifest);
     }
 
     /**
@@ -249,7 +250,33 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $manifest = $this->getAssetsDeployerManifest();
 
-        return isset($manifest[$directory]) ? $manifest[$directory] : [];
+        $manifests = isset($manifest['directories']) ? $manifest['directories'] : [];
+
+        return isset($manifests[$directory]) ? $manifests[$directory] : [];
+    }
+
+    /**
+     * @return void
+     */
+    protected function generateAssetsDeployerUnique()
+    {
+        $manifest = $this->getAssetsDeployerManifest();
+
+        $manifest['unique'] = Str::slug(Str::random(16), '');
+
+        $this->putManifest($manifest);
+    }
+
+    /**
+     * @param $contents
+     */
+    protected function putManifest($contents)
+    {
+        if (! is_string($contents)) {
+            $contents = json_encode($contents);
+        }
+
+        file_put_contents(public_path(static::MANIFEST), $contents, LOCK_EX);
     }
 
     /**
@@ -268,7 +295,15 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      */
     protected function glueUniqueIdToUrl($url)
     {
+        if (! $this->config['attach_unique_query_string']) {
+            return $url;
+        }
+
         $unique = $this->getAssetsDeployerManifestUnique();
+
+        if (! $unique) {
+            return $url;
+        }
 
         return (strpos($url, '?') === false) ? "{$url}?id={$unique}" : "{$url}&id={$unique}";
     }
