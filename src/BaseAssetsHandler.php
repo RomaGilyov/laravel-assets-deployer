@@ -43,6 +43,11 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     protected $config;
 
     /**
+     * @var null|array
+     */
+    protected $loadedManifest = null;
+
+    /**
      * BaseAssetsHandler constructor.
      */
     public function __construct()
@@ -207,26 +212,33 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $manifest = $this->getManifest($directory);
 
-        $assetsDeployerManifest = $this->getAssetsDeployerManifest();
+        $assetsDeployerManifest = $this->getAssetsDeployerManifest(false);
 
-        $assetsDeployerManifest[$directory]['manifest'] = $manifest;
-        $assetsDeployerManifest[$directory]['unique']   = Str::slug(Str::random(), '');
+        $assetsDeployerManifest[$directory] = $manifest;
+        $assetsDeployerManifest['unique']   = Str::slug(Str::random(), '');
 
         file_put_contents(public_path(static::MANIFEST), json_encode($assetsDeployerManifest), LOCK_EX);
     }
 
     /**
+     * @param bool $cache
      * @return array
      */
-    public function getAssetsDeployerManifest()
+    public function getAssetsDeployerManifest($cache = true)
     {
+        $manifest = [];
+
+        if ($cache && $this->loadedManifest) {
+            return $this->loadedManifest;
+        }
+
         $path = public_path(static::MANIFEST);
 
         if (is_file($path)) {
-            return json_decode(file_get_contents($path), true) ?: [];
+            $manifest = json_decode(file_get_contents($path), true) ?: [];
         }
 
-        return [];
+        return $this->loadedManifest = $manifest;
     }
 
     /**
@@ -238,6 +250,27 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
         $manifest = $this->getAssetsDeployerManifest();
 
         return isset($manifest[$directory]) ? $manifest[$directory] : [];
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getAssetsDeployerManifestUnique()
+    {
+        $manifest = $this->getAssetsDeployerManifest();
+
+        return isset($manifest['unique']) ? $manifest['unique'] : '';
+    }
+
+    /**
+     * @param $url
+     * @return string
+     */
+    protected function glueUniqueIdToUrl($url)
+    {
+        $unique = $this->getAssetsDeployerManifestUnique();
+
+        return (strpos($url, '?') === false) ? "{$url}?id={$unique}" : "{$url}&id={$unique}";
     }
 
     /**
@@ -354,12 +387,6 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $manifest = $this->getAssetsDeployerManifestDir($directory);
 
-        if (! isset($manifest['manifest'])) {
-            throw new AssetsDeployerException(static::MANIFEST . " does not exists");
-        }
-
-        $manifest = $manifest['manifest'];
-
         if (! isset($manifest[$path])) {
             throw new AssetsDeployerException("File {$path} does not exists in the " . static::MANIFEST);
         }
@@ -377,6 +404,6 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $fullPath = $this->isCloud() ? $this->gluePaths($this->cloudDirectory, $path) : $path;
 
-        return $this->makeCloudUrl($fullPath);
+        return $this->glueUniqueIdToUrl($this->makeCloudUrl($fullPath));
     }
 }
