@@ -16,6 +16,11 @@ use Hippomundo\AssetsDeployer\Interfaces\AssetsHandlerInterface;
 abstract class BaseAssetsHandler implements AssetsHandlerInterface
 {
     /**
+     * @var string
+     */
+    const MANIFEST = 'assets-deployer-manifest.json';
+
+    /**
      * Cloud directory with asses
      *
      * @var string
@@ -184,6 +189,8 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
                 $this->disk->put($path, $contents);
             }
+
+            $this->makeAssetsDeployerManifest($directory);
         }
 
         if ($uploadAdditionalAssets) {
@@ -191,6 +198,46 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
         }
 
         return true;
+    }
+
+    /**
+     * @param $directory
+     */
+    protected function makeAssetsDeployerManifest($directory)
+    {
+        $manifest = $this->getManifest($directory);
+
+        $assetsDeployerManifest = $this->getAssetsDeployerManifest();
+
+        $assetsDeployerManifest[$directory]['manifest'] = $manifest;
+        $assetsDeployerManifest[$directory]['unique']   = Str::slug(Str::random(), '');
+
+        file_put_contents(public_path(static::MANIFEST), json_encode($assetsDeployerManifest), LOCK_EX);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAssetsDeployerManifest()
+    {
+        $path = public_path(static::MANIFEST);
+
+        if (is_file($path)) {
+            return json_decode(file_get_contents($path), true) ?: [];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param $directory
+     * @return array|mixed
+     */
+    public function getAssetsDeployerManifestDir($directory)
+    {
+        $manifest = $this->getAssetsDeployerManifest();
+
+        return isset($manifest[$directory]) ? $manifest[$directory] : [];
     }
 
     /**
@@ -305,10 +352,16 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      */
     public function getFromCloud($path, $directory)
     {
-        $manifest = $this->getManifest($directory);
+        $manifest = $this->getAssetsDeployerManifestDir($directory);
 
-        if (!isset($manifest[$path])) {
-            throw new AssetsDeployerException("File {$path} does not exists in the manifest.json");
+        if (! isset($manifest['manifest'])) {
+            throw new AssetsDeployerException(static::MANIFEST . " does not exists");
+        }
+
+        $manifest = $manifest['manifest'];
+
+        if (! isset($manifest[$path])) {
+            throw new AssetsDeployerException("File {$path} does not exists in the " . static::MANIFEST);
         }
 
         $filePath = $this->gluePaths($directory, $manifest[$path]);
