@@ -76,6 +76,10 @@ return [
     |--------------------------------------------------------------------------
     | Cache settings
     |--------------------------------------------------------------------------
+    |
+    | Generate unique query string in order to glue it to assets paths to avoid
+    | caching of not existing files on cloud
+    |
     */
 
     'attach_unique_query_string' => true,
