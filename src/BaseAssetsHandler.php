@@ -180,7 +180,9 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             $manifest = $this->getManifest($directory);
 
             foreach ($manifest as $file) {
-                $file = substr($file, 0, strpos($file, '?'));
+                if (strpos($file, '?') !== false) {
+                    $file = substr($file, 0, strpos($file, '?'));
+                }
 
                 $filePath = $this->gluePaths($directory, $file);
 
