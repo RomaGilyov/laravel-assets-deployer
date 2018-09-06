@@ -228,6 +228,12 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     {
         $manifest = $this->getManifest($directory);
 
+        foreach ($manifest as $name => $path) {
+            if (strpos($path, '?') !== false) {
+                $manifest[$name] = substr($path, 0, strpos($path, '?'));
+            }
+        }
+
         $assetsDeployerManifest = $this->getAssetsDeployerManifest(false);
 
         $assetsDeployerManifest['directories'][$directory] = $manifest;
@@ -323,7 +329,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             return $url;
         }
 
-        return (strpos($url, '?') === false) ? "{$url}?id={$unique}" : "{$url}&id={$unique}";
+        return "{$url}?id={$unique}";
     }
 
     /**
