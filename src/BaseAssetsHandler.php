@@ -280,7 +280,7 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
      */
     protected function generateUniqueForAssets($key)
     {
-        $manifest = $this->getAssetsDeployerManifest();
+        $manifest = $this->getAssetsDeployerManifest(false);
 
         $manifest[$key] = Str::slug(Str::random(16), '');
 
