@@ -21,6 +21,16 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     const MANIFEST = 'assets-deployer-manifest.json';
 
     /**
+     * @var string
+     */
+    const UNIQUE_ADDITIONAL_ASSETS_KEY = 'unique_additional_assets';
+
+    /**
+     * @var string
+     */
+    const UNIQUE_ASSETS_KEY = 'unique_assets';
+
+    /**
      * Cloud directory with asses
      *
      * @var string
@@ -200,10 +210,12 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
             $this->makeAssetsDeployerManifest($directory);
         }
 
+        $this->generateUniqueForAssets(static::UNIQUE_ASSETS_KEY);
+
         if ($uploadAdditionalAssets) {
             $this->uploadAdditionalAssets();
 
-            $this->generateAssetsDeployerUnique();
+            $this->generateUniqueForAssets(static::UNIQUE_ADDITIONAL_ASSETS_KEY);
         }
 
         return true;
@@ -258,13 +270,13 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     }
 
     /**
-     * @return void
+     * @param $key
      */
-    protected function generateAssetsDeployerUnique()
+    protected function generateUniqueForAssets($key)
     {
         $manifest = $this->getAssetsDeployerManifest();
 
-        $manifest['unique'] = Str::slug(Str::random(16), '');
+        $manifest[$key] = Str::slug(Str::random(16), '');
 
         $this->putManifest($manifest);
     }
@@ -282,26 +294,30 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
     }
 
     /**
+     * @param $key
      * @return mixed|string
      */
-    public function getAssetsDeployerManifestUnique()
+    public function getAssetsDeployerManifestUnique($key)
     {
         $manifest = $this->getAssetsDeployerManifest();
 
-        return isset($manifest['unique']) ? $manifest['unique'] : '';
+        return isset($manifest[$key]) ? $manifest[$key] : '';
     }
 
     /**
      * @param $url
+     * @param bool $additional
      * @return string
      */
-    protected function glueUniqueIdToUrl($url)
+    protected function glueUniqueIdToUrl($url, $additional = true)
     {
         if (! $this->config['attach_unique_query_string']) {
             return $url;
         }
 
-        $unique = $this->getAssetsDeployerManifestUnique();
+        $key = $additional ? static::UNIQUE_ADDITIONAL_ASSETS_KEY : static::UNIQUE_ASSETS_KEY;
+
+        $unique = $this->getAssetsDeployerManifestUnique($key);
 
         if (! $unique) {
             return $url;
@@ -435,15 +451,15 @@ abstract class BaseAssetsHandler implements AssetsHandlerInterface
 
     /**
      * @param $path
-     * @param bool $glueUnique
+     * @param bool $additional
      * @return string
      */
-    public function srcLink($path, $glueUnique = true)
+    public function srcLink($path, $additional = true)
     {
         $fullPath = $this->isCloud() ? $this->gluePaths($this->cloudDirectory, $path) : $path;
 
         $fullPath = $this->makeCloudUrl($fullPath);
 
-        return $glueUnique ? $this->glueUniqueIdToUrl($fullPath) : $fullPath;
+        return $this->glueUniqueIdToUrl($fullPath, $additional);
     }
 }
